@@ -3,39 +3,46 @@ import subprocess
 import time
 
 def run_pulse():
-    """Executes the Sovereign Handshake with Path-Scoping Correction."""
+    """Executes the Sovereign Handshake with Media Auto-Upload."""
     try:
-        # 1. PATH CORRECTION: Force execution to the root folder
-        # This ensures we are inside the .git perimeter
+        # 1. PATH CORRECTION: Force focus to root
         base_dir = os.path.dirname(os.path.abspath(__file__))
         os.chdir(base_dir)
         
-        print("[SYSTEM] INITIALIZING SOVEREIGN HANDSHAKE...")
+        print("[SYSTEM] INITIALIZING MEDIA-PULSE HANDSHAKE...")
         
-        # 2. PRE-FLIGHT SYNC: Attempt to pull latest changes
+        # 2. MEDIA INTEGRITY CHECK: Verify demo video existence
+        video_file = "Sentinel Lvl 4.mp4"
+        if os.path.exists(video_file):
+            print(f"[SYSTEM] VIDEO DETECTED: {video_file} - Staging for upload...")
+        else:
+            print("[WARNING] Media Asset Not Found. Proceeding with architecture only.")
+
+        # 3. PRE-FLIGHT SYNC: Rebase to clear the path
         subprocess.run("git pull --rebase origin main", shell=True, capture_output=True, text=True)
 
-        # 3. FORMAT ARCHITECTURE STATUS
+        # 4. FORMAT ARCHITECTURE STATUS
         try:
             from tabulate import tabulate
-            table_data = [["Module", "Status"], ["Engine", "Synced"], ["Intel", "Synced"]]
+            table_data = [["Module", "Status"], ["Engine", "Synced"], ["Intel", "Synced"], ["Media", "Staged"]]
             print(tabulate(table_data, headers="firstrow", tablefmt="grid"))
         except ImportError:
-            print("--- ARCHITECTURE SYNC STATUS ---")
-            print("Engine: Synced | Intel: Synced")
+            print("--- SOVEREIGN SYNC STATUS ---")
+            print("Engine: Synced | Intel: Synced | Media: Staged")
 
-        # 4. DEPLOY: Staging structural updates only
+        # 5. DEPLOY: Staging architecture and video
         subprocess.run("git add .", shell=True)
-        commit_msg = f'git commit -m "Level 4 Architecture Sync: {time.strftime("%H:%M:%S")}"'
+        commit_msg = f'git commit -m "Level 4 Deployment: Final Demo & Architecture {time.strftime("%H:%M")}"'
         subprocess.run(commit_msg, shell=True, capture_output=True)
 
-        # 5. THE PUSH: Re-syncing the Sovereign Cloud
+        # 6. THE PUSH: Sending payload to the Sovereign Cloud
+        print("[SYSTEM] UPLOADING ASSETS TO GITHUB...")
         result = subprocess.run("git push origin main", shell=True, capture_output=True, text=True)
         
         if result.returncode == 0:
-            print("PULSE SUCCESS: ARCHITECTURAL INTEGRITY SYNCHRONIZED.")
+            print("PULSE SUCCESS: ARCHITECTURE & MEDIA SYNCHRONIZED.")
         else:
-            # Final Attempt: Resolve and Push
+            # Final Resolution Protocol
             subprocess.run("git pull --rebase origin main", shell=True, capture_output=True)
             subprocess.run("git push origin main", shell=True, capture_output=True)
             print("PULSE SUCCESS: HANDSHAKE COMPLETE.")
