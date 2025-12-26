@@ -1,24 +1,41 @@
-﻿import pandas as pd
+﻿import os
+import pandas as pd
 import matplotlib.pyplot as plt
-import os
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(base_dir, "phalanx_portfolio.csv")
+# ARCHITECT PATHING: Reaching across the modular structure
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.dirname(current_dir)
+csv_path = os.path.join(root_dir, "phalanx_engine", "phalanx_portfolio.csv")
 
-def generate_report():
-    if not os.path.exists(csv_path): 
+def generate_visuals():
+    """Generates visual intelligence from air-gapped data."""
+    if not os.path.exists(csv_path):
         print("Error: No portfolio data found. Run Intake first.")
         return
-        
-    df = pd.read_csv(csv_path)
-    df['Value'] = df['Value'].replace(r'[\$,]', '', regex=True).astype(float)
-    summary = df.groupby('Agency')['Value'].sum()
-    
-    plt.figure(figsize=(10, 6))
-    summary.plot(kind='bar', color='#9b59b6', edgecolor='black')
-    plt.title('Sentinel_Empire: Portfolio Distribution', fontsize=14)
-    plt.ylabel('Total Contract Value ($)')
-    plt.tight_layout()
-    plt.show()
 
-if __name__ == "__main__": generate_report()
+    try:
+        # Load the data from the engine sector
+        df = pd.read_csv(csv_path)
+        
+        if df.empty:
+            print("Error: Portfolio dataset is empty.")
+            return
+
+        # Simple Viz for the Demo: Distribution by Category
+        # (Replace 'Agency' with whatever column you are extracting)
+        df['Agency'].value_counts().plot(kind='bar', color='purple')
+        plt.title("Sentinel_Empire: Portfolio Distribution")
+        plt.xlabel("Agency Sector")
+        plt.ylabel("Contract Count")
+        plt.tight_layout()
+        
+        # Save locally to maintain air-gap security
+        plt.savefig(os.path.join(root_dir, "portfolio_summary.png"))
+        print("INTELLIGENCE SUITE: VISUALS GENERATED SUCCESSFULLY.")
+        plt.show()
+
+    except Exception as e:
+        print(f"VISUALIZER ERROR: {str(e)}")
+
+if __name__ == "__main__":
+    generate_visuals()
