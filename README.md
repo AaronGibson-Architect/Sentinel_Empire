@@ -5,7 +5,9 @@
 # 
 
 # ---
-
+## 📺 Tactical Demo: Level 4 Operations
+[![Watch the Level 4 Demonstration](./thumbnail.png)](./Sentinel%20Lvl%204.mp4)
+*Click the image above to view the sovereign mission briefing.*
 # 
 
 # \## 🏛️ Executive Mission
