@@ -1,0 +1,10 @@
+# ARCHITECT SECURITY PROTOCOL: DO NOT REMOVE
+__pycache__/
+*.pyc
+secrets.py
+.env
+
+# DATA SOVEREIGNTY: Prevent local contract data from reaching public GitHub
+Phalanx_Data/
+*.pdf
+*.csv
